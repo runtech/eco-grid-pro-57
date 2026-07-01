@@ -49,7 +49,7 @@ export function ProductCard({ product }: { product: Product }) {
     : 0;
 
   return (
-    <div className="group flex flex-col overflow-hidden rounded-xl border bg-card transition-all hover:shadow-elegant">
+    <div className="group relative flex flex-col overflow-hidden rounded-xl border bg-card transition-all hover:shadow-elegant">
       <Link
         to="/products/$slug"
         params={{ slug: product.slug }}
