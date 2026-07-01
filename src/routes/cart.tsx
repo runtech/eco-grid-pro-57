@@ -1,6 +1,5 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
 import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
 import { useI18n, formatPrice } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth-context";
@@ -15,7 +14,6 @@ function CartPage() {
   const { t, locale } = useI18n();
   const { user, loading } = useAuth();
   const qc = useQueryClient();
-  const navigate = useNavigate();
 
   const { data: items = [], isLoading } = useQuery({
     queryKey: ["cart", user?.id],
