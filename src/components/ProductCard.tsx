@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Tables } from "@/integrations/supabase/types";
+import { WishlistButton } from "@/components/WishlistButton";
 
 type Product = Tables<"products">;
 
@@ -66,6 +67,7 @@ export function ProductCard({ product }: { product: Product }) {
           <Badge className="absolute start-3 top-3 gradient-primary text-primary-foreground border-0">★</Badge>
         )}
       </Link>
+      <WishlistButton productId={product.id} className="absolute end-2 top-2 h-8 w-8 rounded-full bg-background/80 backdrop-blur hover:bg-background z-10" />
       <div className="flex flex-1 flex-col gap-2 p-4">
         {product.brand && <p className="text-xs text-muted-foreground">{product.brand}</p>}
         <Link to="/products/$slug" params={{ slug: product.slug }} className="line-clamp-2 font-semibold hover:text-primary">
