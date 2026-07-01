@@ -45,45 +45,6 @@ function CartPage() {
     },
   });
 
-  const checkout = useMutation({
-    mutationFn: async () => {
-      if (!user || items.length === 0) throw new Error("empty");
-      const subtotal = items.reduce((s, it) => s + Number(it.product?.price ?? 0) * it.quantity, 0);
-      const shipping = 0;
-      const total = subtotal + shipping;
-      const { data: order, error } = await supabase
-        .from("orders")
-        .insert({
-          user_id: user.id,
-          subtotal,
-          shipping_fee: shipping,
-          total,
-          shipping_address: { note: "MVP - address to be added" },
-        })
-        .select()
-        .single();
-      if (error) throw error;
-      const orderItems = items.map((it) => ({
-        order_id: order.id,
-        product_id: it.product!.id,
-        product_name: locale === "ar" ? it.product!.name_ar : it.product!.name_en,
-        unit_price: Number(it.product!.price),
-        quantity: it.quantity,
-        line_total: Number(it.product!.price) * it.quantity,
-      }));
-      const { error: itemsErr } = await supabase.from("order_items").insert(orderItems);
-      if (itemsErr) throw itemsErr;
-      await supabase.from("cart_items").delete().eq("user_id", user.id);
-      return order;
-    },
-    onSuccess: () => {
-      toast.success(locale === "ar" ? "تم إنشاء الطلب بنجاح" : "Order placed successfully");
-      qc.invalidateQueries({ queryKey: ["cart"] });
-      qc.invalidateQueries({ queryKey: ["cart-count"] });
-      navigate({ to: "/account" });
-    },
-    onError: (e: Error) => toast.error(e.message),
-  });
 
   if (loading) return <div className="mx-auto max-w-7xl px-4 py-16 text-center">{t("common.loading")}</div>;
 
