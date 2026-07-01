@@ -7,6 +7,8 @@ import { useAuth } from "@/lib/auth-context";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ProductReviews } from "@/components/ProductReviews";
+import { WishlistButton } from "@/components/WishlistButton";
 
 export const Route = createFileRoute("/products/$slug")({
   component: ProductDetail,
@@ -103,15 +105,18 @@ function ProductDetail() {
 
           {desc && <p className="text-muted-foreground leading-relaxed">{desc}</p>}
 
-          <Button
-            size="lg"
-            onClick={() => addToCart.mutate()}
-            disabled={addToCart.isPending || product.stock <= 0}
-            className="w-full gradient-primary border-0"
-          >
-            <ShoppingCart className="h-5 w-5" />
-            <span className="ms-2">{t("products.addToCart")}</span>
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              size="lg"
+              onClick={() => addToCart.mutate()}
+              disabled={addToCart.isPending || product.stock <= 0}
+              className="flex-1 gradient-primary border-0"
+            >
+              <ShoppingCart className="h-5 w-5" />
+              <span className="ms-2">{t("products.addToCart")}</span>
+            </Button>
+            <WishlistButton productId={product.id} className="h-11 w-11 border" />
+          </div>
 
           {Object.keys(specs).length > 0 && (
             <div className="mt-4 rounded-xl border bg-card p-4">
