@@ -1,6 +1,5 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
 import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
 import { useI18n, formatPrice } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth-context";
@@ -15,7 +14,6 @@ function CartPage() {
   const { t, locale } = useI18n();
   const { user, loading } = useAuth();
   const qc = useQueryClient();
-  const navigate = useNavigate();
 
   const { data: items = [], isLoading } = useQuery({
     queryKey: ["cart", user?.id],
@@ -47,45 +45,6 @@ function CartPage() {
     },
   });
 
-  const checkout = useMutation({
-    mutationFn: async () => {
-      if (!user || items.length === 0) throw new Error("empty");
-      const subtotal = items.reduce((s, it) => s + Number(it.product?.price ?? 0) * it.quantity, 0);
-      const shipping = 0;
-      const total = subtotal + shipping;
-      const { data: order, error } = await supabase
-        .from("orders")
-        .insert({
-          user_id: user.id,
-          subtotal,
-          shipping_fee: shipping,
-          total,
-          shipping_address: { note: "MVP - address to be added" },
-        })
-        .select()
-        .single();
-      if (error) throw error;
-      const orderItems = items.map((it) => ({
-        order_id: order.id,
-        product_id: it.product!.id,
-        product_name: locale === "ar" ? it.product!.name_ar : it.product!.name_en,
-        unit_price: Number(it.product!.price),
-        quantity: it.quantity,
-        line_total: Number(it.product!.price) * it.quantity,
-      }));
-      const { error: itemsErr } = await supabase.from("order_items").insert(orderItems);
-      if (itemsErr) throw itemsErr;
-      await supabase.from("cart_items").delete().eq("user_id", user.id);
-      return order;
-    },
-    onSuccess: () => {
-      toast.success(locale === "ar" ? "تم إنشاء الطلب بنجاح" : "Order placed successfully");
-      qc.invalidateQueries({ queryKey: ["cart"] });
-      qc.invalidateQueries({ queryKey: ["cart-count"] });
-      navigate({ to: "/account" });
-    },
-    onError: (e: Error) => toast.error(e.message),
-  });
 
   if (loading) return <div className="mx-auto max-w-7xl px-4 py-16 text-center">{t("common.loading")}</div>;
 
@@ -150,9 +109,11 @@ function CartPage() {
             <div className="flex justify-between text-muted-foreground"><dt>{t("cart.shipping")}</dt><dd>—</dd></div>
             <div className="mt-3 flex justify-between border-t pt-3 text-lg font-bold"><dt>{t("cart.total")}</dt><dd>{formatPrice(subtotal, locale)} {t("common.currency")}</dd></div>
           </dl>
-          <Button className="mt-4 w-full gradient-primary border-0" size="lg" disabled={checkout.isPending} onClick={() => checkout.mutate()}>
-            {t("cart.checkout")}
-          </Button>
+          <Link to="/checkout" className="mt-4 block">
+            <Button className="w-full gradient-primary border-0" size="lg">
+              {t("cart.checkout")}
+            </Button>
+          </Link>
         </aside>
       </div>
     </div>

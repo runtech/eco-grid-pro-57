@@ -1,8 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Sun, ShoppingCart, User, Calculator, Sparkles, Menu, X, Languages } from "lucide-react";
+import { Sun, ShoppingCart, User, Calculator, Sparkles, Menu, X, Languages, Heart, LayoutDashboard } from "lucide-react";
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth-context";
+import { useIsAdmin } from "@/lib/use-admin";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -23,6 +24,7 @@ function useCartCount() {
 export function Header() {
   const { t, locale, setLocale } = useI18n();
   const { user, signOut } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { data: cartCount = 0 } = useCartCount();
@@ -67,6 +69,11 @@ export function Header() {
             <Languages className="h-4 w-4" />
             <span className="ms-1 hidden sm:inline">{t("common.language")}</span>
           </Button>
+          <Link to="/wishlist" className="hidden sm:inline-flex">
+            <Button variant="ghost" size="icon" aria-label="wishlist">
+              <Heart className="h-5 w-5" />
+            </Button>
+          </Link>
           <Link to="/cart">
             <Button variant="ghost" size="icon" className="relative">
               <ShoppingCart className="h-5 w-5" />
@@ -77,6 +84,14 @@ export function Header() {
               )}
             </Button>
           </Link>
+          {isAdmin && (
+            <Link to="/admin" className="hidden md:inline-flex">
+              <Button variant="outline" size="sm">
+                <LayoutDashboard className="h-4 w-4" />
+                <span className="ms-1">{t("nav.admin")}</span>
+              </Button>
+            </Link>
+          )}
           {user ? (
             <Link to="/account">
               <Button variant="outline" size="sm">
