@@ -135,6 +135,7 @@ function ProductDetail() {
           )}
         </div>
       </div>
+      <ProductReviews productId={product.id} />
     </div>
   );
 }
