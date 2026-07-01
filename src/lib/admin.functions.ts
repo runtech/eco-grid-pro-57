@@ -45,7 +45,7 @@ export const adminListUsers = createServerFn({ method: "GET" })
 // Admin-only: toggle a user's admin role.
 export const adminSetRole = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { targetUserId: string; role: "admin" | "user"; grant: boolean }) => d)
+  .inputValidator((d: { targetUserId: string; role: "admin" | "customer" | "driver" | "technician"; grant: boolean }) => d)
   .handler(async ({ data, context }) => {
     const { data: isAdmin } = await context.supabase.rpc("has_role", {
       _user_id: context.userId,
