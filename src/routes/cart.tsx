@@ -109,9 +109,11 @@ function CartPage() {
             <div className="flex justify-between text-muted-foreground"><dt>{t("cart.shipping")}</dt><dd>—</dd></div>
             <div className="mt-3 flex justify-between border-t pt-3 text-lg font-bold"><dt>{t("cart.total")}</dt><dd>{formatPrice(subtotal, locale)} {t("common.currency")}</dd></div>
           </dl>
-          <Button className="mt-4 w-full gradient-primary border-0" size="lg" disabled={checkout.isPending} onClick={() => checkout.mutate()}>
-            {t("cart.checkout")}
-          </Button>
+          <Link to="/checkout" className="mt-4 block">
+            <Button className="w-full gradient-primary border-0" size="lg">
+              {t("cart.checkout")}
+            </Button>
+          </Link>
         </aside>
       </div>
     </div>
