@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BASE_URL is set at deploy time. Relative URLs kept until a canonical domain is chosen. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>/products</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>/ai-advisor</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/calculators</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+</urlset>
