@@ -15,6 +15,16 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/products")({
   validateSearch: searchSchema,
   component: ProductsPage,
+  head: () => ({
+    meta: [
+      { title: "المنتجات — SolarHub | ألواح، بطاريات، إنفرترات" },
+      { name: "description", content: "تصفح ألواح الطاقة الشمسية، البطاريات، الإنفرترات، منظمات الشحن، والمنظومات الكاملة بأفضل الأسعار." },
+      { property: "og:title", content: "Solar Products — SolarHub" },
+      { property: "og:description", content: "Solar panels, batteries, inverters, controllers, and complete systems." },
+      { property: "og:url", content: "/products" },
+    ],
+    links: [{ rel: "canonical", href: "/products" }],
+  }),
 });
 
 function ProductsPage() {

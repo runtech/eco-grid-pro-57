@@ -19,6 +19,16 @@ const CATEGORIES = [
 
 export const Route = createFileRoute("/")({
   component: Index,
+  head: () => ({
+    meta: [
+      { title: "SolarHub — منصة الطاقة الشمسية الذكية | متجر ومستشار AI" },
+      { name: "description", content: "متجر متكامل للطاقة الشمسية: ألواح، بطاريات، إنفرترات، منظومات كاملة، مستشار هندسي بالذكاء الاصطناعي، وحاسبات ROI." },
+      { property: "og:title", content: "SolarHub — Smart Solar Energy Platform" },
+      { property: "og:description", content: "Solar marketplace + AI advisor + engineering calculators + delivery network." },
+      { property: "og:url", content: "/" },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+  }),
 });
 
 function Index() {

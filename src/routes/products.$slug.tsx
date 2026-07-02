@@ -12,6 +12,30 @@ import { WishlistButton } from "@/components/WishlistButton";
 
 export const Route = createFileRoute("/products/$slug")({
   component: ProductDetail,
+  loader: async ({ params }) => {
+    const { data } = await supabase
+      .from("products")
+      .select("name_ar,name_en,description_ar,description_en,image_url,price,currency")
+      .eq("slug", params.slug)
+      .eq("is_active", true)
+      .maybeSingle();
+    return { seed: data };
+  },
+  head: ({ params, loaderData }) => {
+    const p = loaderData?.seed;
+    const title = p ? `${p.name_ar} — SolarHub` : `منتج — SolarHub`;
+    const desc = p ? (p.description_ar ?? p.description_en ?? `${p.name_ar} — ${p.price} ${p.currency}`).slice(0, 155) : "تفاصيل المنتج";
+    const meta: Array<Record<string, string>> = [
+      { title },
+      { name: "description", content: desc },
+      { property: "og:title", content: p ? p.name_en : "SolarHub Product" },
+      { property: "og:description", content: desc },
+      { property: "og:type", content: "product" },
+      { property: "og:url", content: `/products/${params.slug}` },
+    ];
+    if (p?.image_url) meta.push({ property: "og:image", content: p.image_url }, { property: "twitter:image", content: p.image_url });
+    return { meta, links: [{ rel: "canonical", href: `/products/${params.slug}` }] };
+  },
 });
 
 function ProductDetail() {

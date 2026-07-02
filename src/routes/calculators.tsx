@@ -4,6 +4,16 @@ import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/calculators")({
   component: CalculatorsPage,
+  head: () => ({
+    meta: [
+      { title: "الحاسبات الهندسية — SolarHub" },
+      { name: "description", content: "حاسبات الأحمال، تصميم المنظومة الشمسية، حاسبة ROI ومدة الاسترداد." },
+      { property: "og:title", content: "Solar Engineering Calculators — SolarHub" },
+      { property: "og:description", content: "Load calc, system sizing, and ROI calculators." },
+      { property: "og:url", content: "/calculators" },
+    ],
+    links: [{ rel: "canonical", href: "/calculators" }],
+  }),
 });
 
 function CalculatorsPage() {

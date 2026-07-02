@@ -12,6 +12,13 @@ import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/auth")({
   component: AuthPage,
+  head: () => ({
+    meta: [
+      { title: "تسجيل الدخول — SolarHub" },
+      { name: "description", content: "سجّل دخولك أو أنشئ حساب SolarHub لإدارة طلباتك ومفضلتك." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
 });
 
 function AuthPage() {
