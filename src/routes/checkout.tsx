@@ -26,6 +26,7 @@ function CheckoutPage() {
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState<"cod" | "jaib" | "onecash">("cod");
 
   const { data: items = [], isLoading } = useQuery({
     queryKey: ["cart", user?.id],
