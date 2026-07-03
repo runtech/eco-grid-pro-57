@@ -140,7 +140,34 @@ function CheckoutPage() {
             <div className="sm:col-span-2">
               <Label htmlFor="nt">{locale === "ar" ? "ملاحظات (اختياري)" : "Notes (optional)"}</Label>
               <Textarea id="nt" value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
+          </div>
+          <div className="pt-2">
+            <h2 className="font-bold text-lg mb-3">{locale === "ar" ? "طريقة الدفع" : "Payment method"}</h2>
+            <div className="grid gap-2 sm:grid-cols-3">
+              {([
+                { id: "cod", ar: "الدفع عند الاستلام", en: "Cash on delivery" },
+                { id: "jaib", ar: "محفظة جيب", en: "Jaib wallet" },
+                { id: "onecash", ar: "وان كاش", en: "OneCash" },
+              ] as const).map((m) => (
+                <button
+                  key={m.id}
+                  type="button"
+                  onClick={() => setPaymentMethod(m.id)}
+                  className={`rounded-lg border p-3 text-sm font-medium transition ${
+                    paymentMethod === m.id ? "border-primary bg-primary/5 ring-2 ring-primary" : "hover:bg-muted"
+                  }`}
+                >
+                  {locale === "ar" ? m.ar : m.en}
+                </button>
+              ))}
             </div>
+            {paymentMethod !== "cod" && (
+              <p className="mt-2 text-xs text-muted-foreground">
+                {locale === "ar"
+                  ? "سيتم التواصل معك لإتمام الدفع بعد تأكيد الطلب."
+                  : "You will be contacted to complete payment after order confirmation."}
+              </p>
+            )}
           </div>
           <Button type="submit" size="lg" className="w-full gradient-primary border-0" disabled={placeOrder.isPending}>
             <CheckCircle2 className="h-5 w-5" />
