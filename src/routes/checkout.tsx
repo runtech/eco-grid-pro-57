@@ -57,7 +57,7 @@ function CheckoutPage() {
           shipping_fee: shipping,
           total,
           shipping_address: { full_name: fullName, phone, city, address },
-          notes: notes || null,
+          notes: notes ? `[${paymentMethod.toUpperCase()}] ${notes}` : `[${paymentMethod.toUpperCase()}]`,
         })
         .select()
         .single();
