@@ -140,6 +140,7 @@ function CheckoutPage() {
             <div className="sm:col-span-2">
               <Label htmlFor="nt">{locale === "ar" ? "ملاحظات (اختياري)" : "Notes (optional)"}</Label>
               <Textarea id="nt" value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
+            </div>
           </div>
           <div className="pt-2">
             <h2 className="font-bold text-lg mb-3">{locale === "ar" ? "طريقة الدفع" : "Payment method"}</h2>
