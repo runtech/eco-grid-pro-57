@@ -93,50 +93,62 @@ export type Database = {
       }
       orders: {
         Row: {
+          carrier: string | null
           created_at: string
           currency: string
+          delivered_at: string | null
           id: string
           notes: string | null
           order_number: string
           payment_method: string
           payment_status: string
+          shipped_at: string | null
           shipping_address: Json
           shipping_fee: number
           status: Database["public"]["Enums"]["order_status"]
           subtotal: number
           total: number
+          tracking_number: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
+          carrier?: string | null
           created_at?: string
           currency?: string
+          delivered_at?: string | null
           id?: string
           notes?: string | null
           order_number?: string
           payment_method?: string
           payment_status?: string
+          shipped_at?: string | null
           shipping_address: Json
           shipping_fee?: number
           status?: Database["public"]["Enums"]["order_status"]
           subtotal: number
           total: number
+          tracking_number?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
+          carrier?: string | null
           created_at?: string
           currency?: string
+          delivered_at?: string | null
           id?: string
           notes?: string | null
           order_number?: string
           payment_method?: string
           payment_status?: string
+          shipped_at?: string | null
           shipping_address?: Json
           shipping_fee?: number
           status?: Database["public"]["Enums"]["order_status"]
           subtotal?: number
           total?: number
+          tracking_number?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -194,11 +206,13 @@ export type Database = {
           image_url: string | null
           is_active: boolean
           is_featured: boolean
+          low_stock_threshold: number
           name_ar: string
           name_en: string
           price: number
           rating: number | null
           review_count: number | null
+          sku: string | null
           slug: string
           specs: Json
           stock: number
@@ -217,11 +231,13 @@ export type Database = {
           image_url?: string | null
           is_active?: boolean
           is_featured?: boolean
+          low_stock_threshold?: number
           name_ar: string
           name_en: string
           price: number
           rating?: number | null
           review_count?: number | null
+          sku?: string | null
           slug: string
           specs?: Json
           stock?: number
@@ -240,11 +256,13 @@ export type Database = {
           image_url?: string | null
           is_active?: boolean
           is_featured?: boolean
+          low_stock_threshold?: number
           name_ar?: string
           name_en?: string
           price?: number
           rating?: number | null
           review_count?: number | null
+          sku?: string | null
           slug?: string
           specs?: Json
           stock?: number
@@ -281,6 +299,50 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      stock_movements: {
+        Row: {
+          change: number
+          created_at: string
+          created_by: string | null
+          id: string
+          note: string | null
+          product_id: string
+          reason: string
+          reference_id: string | null
+          reference_type: string | null
+        }
+        Insert: {
+          change: number
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          note?: string | null
+          product_id: string
+          reason: string
+          reference_id?: string | null
+          reference_type?: string | null
+        }
+        Update: {
+          change?: number
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          note?: string | null
+          product_id?: string
+          reason?: string
+          reference_id?: string | null
+          reference_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stock_movements_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {

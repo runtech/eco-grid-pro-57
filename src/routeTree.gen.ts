@@ -24,6 +24,8 @@ import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
+import { Route as AdminLogisticsRouteImport } from './routes/admin.logistics'
+import { Route as AdminInventoryRouteImport } from './routes/admin.inventory'
 
 const WishlistRoute = WishlistRouteImport.update({
   id: '/wishlist',
@@ -100,6 +102,16 @@ const AdminOrdersRoute = AdminOrdersRouteImport.update({
   path: '/orders',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminLogisticsRoute = AdminLogisticsRouteImport.update({
+  id: '/logistics',
+  path: '/logistics',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminInventoryRoute = AdminInventoryRouteImport.update({
+  id: '/inventory',
+  path: '/inventory',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -112,6 +124,8 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof CheckoutRoute
   '/products': typeof ProductsRouteWithChildren
   '/wishlist': typeof WishlistRoute
+  '/admin/inventory': typeof AdminInventoryRoute
+  '/admin/logistics': typeof AdminLogisticsRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/users': typeof AdminUsersRoute
@@ -128,6 +142,8 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutRoute
   '/products': typeof ProductsRouteWithChildren
   '/wishlist': typeof WishlistRoute
+  '/admin/inventory': typeof AdminInventoryRoute
+  '/admin/logistics': typeof AdminLogisticsRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/users': typeof AdminUsersRoute
@@ -146,6 +162,8 @@ export interface FileRoutesById {
   '/checkout': typeof CheckoutRoute
   '/products': typeof ProductsRouteWithChildren
   '/wishlist': typeof WishlistRoute
+  '/admin/inventory': typeof AdminInventoryRoute
+  '/admin/logistics': typeof AdminLogisticsRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/users': typeof AdminUsersRoute
@@ -165,6 +183,8 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/products'
     | '/wishlist'
+    | '/admin/inventory'
+    | '/admin/logistics'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/users'
@@ -181,6 +201,8 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/products'
     | '/wishlist'
+    | '/admin/inventory'
+    | '/admin/logistics'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/users'
@@ -198,6 +220,8 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/products'
     | '/wishlist'
+    | '/admin/inventory'
+    | '/admin/logistics'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/users'
@@ -325,10 +349,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminOrdersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/logistics': {
+      id: '/admin/logistics'
+      path: '/logistics'
+      fullPath: '/admin/logistics'
+      preLoaderRoute: typeof AdminLogisticsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/inventory': {
+      id: '/admin/inventory'
+      path: '/inventory'
+      fullPath: '/admin/inventory'
+      preLoaderRoute: typeof AdminInventoryRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminInventoryRoute: typeof AdminInventoryRoute
+  AdminLogisticsRoute: typeof AdminLogisticsRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
   AdminProductsRoute: typeof AdminProductsRoute
   AdminUsersRoute: typeof AdminUsersRoute
@@ -336,6 +376,8 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminInventoryRoute: AdminInventoryRoute,
+  AdminLogisticsRoute: AdminLogisticsRoute,
   AdminOrdersRoute: AdminOrdersRoute,
   AdminProductsRoute: AdminProductsRoute,
   AdminUsersRoute: AdminUsersRoute,
