@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Package, ShoppingBag, Users, Home } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingBag, Users, Home, Boxes, Truck } from "lucide-react";
 import { useIsAdmin } from "@/lib/use-admin";
 import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
@@ -54,7 +54,9 @@ function AdminLayout() {
   const links = [
     { to: "/admin", label: locale === "ar" ? "نظرة عامة" : "Overview", icon: LayoutDashboard },
     { to: "/admin/products", label: locale === "ar" ? "المنتجات" : "Products", icon: Package },
+    { to: "/admin/inventory", label: locale === "ar" ? "المخزون" : "Inventory", icon: Boxes },
     { to: "/admin/orders", label: locale === "ar" ? "الطلبات" : "Orders", icon: ShoppingBag },
+    { to: "/admin/logistics", label: locale === "ar" ? "الشحن" : "Logistics", icon: Truck },
     { to: "/admin/users", label: locale === "ar" ? "المستخدمون" : "Users", icon: Users },
   ];
 
